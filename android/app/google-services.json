@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1060783386771",
+    "project_id": "learnandplay-bfa40",
+    "storage_bucket": "learnandplay-bfa40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060783386771:android:13646a3eccc55fca8f9d66",
+        "android_client_info": {
+          "package_name": "com.evsu.learnandplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060783386771-4vrvirv78clqpfcgbtpuess75cbnqmps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfjHs34gZ9zr-UN65gOevfiyaSq2f_7bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060783386771-4vrvirv78clqpfcgbtpuess75cbnqmps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
