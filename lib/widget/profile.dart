@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learnandplay/AllScreens/mainscreen.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
+import 'package:learnandplay/Models/AdminUsers.dart';
 import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/config.dart';
 import 'package:learnandplay/main.dart';
@@ -29,19 +30,11 @@ class _ProfileState extends State<Profile> {
   File? _image;
   String photoName="";
   String _url="";
-  final listItem = [
-    "1st",
-    "2nd",
-    "3rd",
-    "4th"
-  ];
-
   @override
   void initState() {
-
-       getProfile();
     // TODO: implement initState
     super.initState();
+    getProfile();
   }
   @override
   Widget build(BuildContext context) {
@@ -136,38 +129,7 @@ class _ProfileState extends State<Profile> {
                             fontSize: 14.0
                         ),
                       ),
-                      SizedBox(height:20.0,),
-                      Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Year',
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        isExpanded: true,
-                        icon: const Icon(Icons.arrow_downward),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: listItem
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )]),
+
                       SizedBox(height: 20.0),
                       RaisedButton(
                         color:Colors.blue,
@@ -282,28 +244,14 @@ class _ProfileState extends State<Profile> {
 
   }
 
-  // File getUserImage(String photo)
-  //  {
-  //     _image= getImage(photo) as File;
-  //    return  _image;
-  //   //return image;
-  // }
-  // Future<File> getImage(String image) async{
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final image=File('${directory.path}/$photoName');
-  //   final photo=File(image.path) ;
-  //   return photo;
-  // }
-  //
   void updateUser(BuildContext context) async
   {
     if (firebaseUser!=null)
     {
       var uid=firebaseUser!.uid;
-      usersRef.child(uid);
+      adminUsersRef.child(uid);
       Map<String, dynamic> userDataMap={
         "name":nameTextEditingController.text.trim(),
-        "year":dropdownValue,
         "photo":photoName,
       };
      // Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(userCurrentInfo.photo);
@@ -328,37 +276,27 @@ class _ProfileState extends State<Profile> {
   getProfile() async{
     firebaseUser = FirebaseAuth.instance.currentUser;
     userId = firebaseUser!.uid;
-    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    DatabaseReference reference = FirebaseDatabase.instance.reference().child("adminUsers").child(userId);
 
     await reference.once().then((DataSnapshot dataSnapShot)
     async {
       if(dataSnapShot.value != null)
       {
-        Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(userCurrentInfo.photo);
-        userCurrentInfo = Users.fromSnapshot(dataSnapShot);
-        emailTextEditingController.value= TextEditingValue(text:userCurrentInfo.email);
-        nameTextEditingController.value= TextEditingValue(text:userCurrentInfo.name);
-        photoName=userCurrentInfo.photo;
 
+        adminUserCurrentInfo = AdminUsers.fromSnapshot(dataSnapShot);
+        emailTextEditingController.text= adminUserCurrentInfo.email;
+        nameTextEditingController.text= adminUserCurrentInfo.name;
+        photoName=adminUserCurrentInfo.photo;
+        Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(photoName);
         await firebaseStorageRef.getDownloadURL().then((value) => {
           _url=value
         });
-        //image= getImage(photoName) as File;
-        setState(() {
 
-          dropdownValue= userCurrentInfo.year;
+        setState(() {
         });
 
       }
     });
   }
-
-  DropdownMenuItem<String> buildMenuItem(String item)  => DropdownMenuItem(
-      value:item,
-      child: Text(
-        item,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-      ));
-
 
 }

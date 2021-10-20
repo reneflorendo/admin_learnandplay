@@ -3,9 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/registrationScreen.dart';
 import 'package:learnandplay/AllScreens/resetpassword.dart';
+import 'package:learnandplay/Models/AdminUsers.dart';
 import 'package:learnandplay/Models/Pages.dart';
 import 'package:learnandplay/Models/Topics.dart';
-import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/config.dart';
 import '../main.dart';
 import 'mainscreen.dart';
@@ -124,21 +124,8 @@ class LoginScreen extends StatelessWidget {
                                 ModalRoute.withName('/'),);
                             },
                           ),
-                          SizedBox(height: 20, width: 5,),
-                          FlatButton(
-                            color:Colors.blue,
-                            textColor: Colors.white,
-                            child: Text("Sign Up"),
-                            onPressed: (){
-                              Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (BuildContext context) => RegistrationScreen()),
-                                ModalRoute.withName('/'),);
-                            },
-                          ),
                         ],
                       )
-
-
-
                     ],
                   )
               ),
@@ -172,9 +159,9 @@ class LoginScreen extends StatelessWidget {
       ).user!;
 
       if (firebaseUser != null) {
-        usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+        adminUsersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
           if (snap.value != null) {
-            userCurrentInfo = Users.fromSnapshot(snap);
+            adminUserCurrentInfo = AdminUsers.fromSnapshot(snap);
             Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(
                   builder: (BuildContext context) => MainScreen()),
@@ -183,7 +170,7 @@ class LoginScreen extends StatelessWidget {
           }
           else {
             _firebaseAuth.signOut();
-            displayToastMessage("User not exists! Please register.", context);
+            displayToastMessage("User not exists!", context);
           }
         });
       }

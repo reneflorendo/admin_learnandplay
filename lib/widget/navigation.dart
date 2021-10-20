@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:learnandplay/AllScreens/adminUserList.dart';
 import 'package:learnandplay/AllScreens/loginscreen.dart';
+import 'package:learnandplay/AllScreens/studentList.dart';
+import 'package:learnandplay/AllScreens/studentsforapproval.dart';
 import 'package:learnandplay/config.dart';
 import 'package:learnandplay/main.dart';
 import 'package:learnandplay/widget/changepassword.dart';
@@ -28,7 +31,7 @@ class _NavigationState extends State<Navigation> {
   
   getImage() async{
     String url="";
-    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(userCurrentInfo.photo);
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(adminUserCurrentInfo.photo);
     await firebaseStorageRef.getDownloadURL().then((value) => {
       url=value
     });
@@ -40,9 +43,9 @@ class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
 
-    final name =userCurrentInfo.name;
-    final email= userCurrentInfo.email;
-    final photo= userCurrentInfo.photo; 
+    final name =adminUserCurrentInfo.name;
+    final email= adminUserCurrentInfo.email;
+    final photo= adminUserCurrentInfo.photo;
 
     //"https://firebasestorage.googleapis.com/v0/b/learnandplay-bfa40.appspot.com/o/user_icon.png?alt=media&token=d1ea60d2-2bd0-46f5-b49c-56438c2dae14";
 
@@ -71,13 +74,37 @@ class _NavigationState extends State<Navigation> {
               icon:Icons.vpn_key,
               onClicked: ()=> selectedItem(context, 1)
             ),
+            const SizedBox(height: 20),
+            buildMenuItem(
+                text:"Students for Approval",
+                icon:Icons.approval_rounded,
+                onClicked: ()=> selectedItem(context, 2)
+            ),
+            const SizedBox(height: 20),
+            buildMenuItem(
+                text:"Students",
+                icon:Icons.people_alt_rounded,
+                onClicked: ()=> selectedItem(context, 3)
+            ),
+            // const SizedBox(height: 20),
+            // buildMenuItem(
+            //     text:"Topics",
+            //     icon:Icons.book_rounded,
+            //     onClicked: ()=> selectedItem(context, 5)
+            // ),
+            const SizedBox(height: 20),
+            buildMenuItem(
+                text:"Admin Users",
+                icon:Icons.person_outline_rounded,
+                onClicked: ()=> selectedItem(context, 4)
+            ),
              const SizedBox(height:20),
             Divider(color: Colors.white70,),
             const SizedBox(height: 20),
             buildMenuItem(
                 text:"Log out",
                 icon:Icons.logout,
-                onClicked: ()=> selectedItem(context, 3)
+                onClicked: ()=> selectedItem(context, 5)
 
             ),
           ],
@@ -115,9 +142,15 @@ class _NavigationState extends State<Navigation> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangePassword()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topics()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentsForApproval()));
         break;
       case 3:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentList()));
+        break;
+      case 4:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdminUserList()));
+        break;
+      case 5:
         //_firebaseAuth.signOut();
         database.setPersistenceEnabled(false);
         database.setPersistenceCacheSizeBytes(0);

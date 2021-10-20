@@ -9,9 +9,10 @@ class Topics
   late String duration;
   late String icon;
   late int gameId;
-  late String status;
+  late bool isActive;
+  late String? url;
  // late List<Pages> pages;
-  Topics({required this.id, required this.title, required this.duration, required this.icon, required this.gameId, required this.status});
+  Topics({required this.id, required this.title, required this.duration, required this.icon, required this.gameId, required this.isActive, this.url=""});
 
   Topics.fromSnapshot(DataSnapshot dataSnapshot)
   {
@@ -20,5 +21,6 @@ class Topics
     duration = dataSnapshot.value["duration"];
     icon = dataSnapshot.value["icon"];
     gameId= dataSnapshot.value["gameId"];
+    isActive= dataSnapshot.value["isActive"];
   }
 }

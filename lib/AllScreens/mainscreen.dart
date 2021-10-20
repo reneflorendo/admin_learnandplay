@@ -3,11 +3,13 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/arraygame.dart';
 import 'package:learnandplay/AllScreens/listgame.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/AllScreens/slides.dart';
+import 'package:learnandplay/AllScreens/topic.dart';
 import 'package:learnandplay/Models/Pages.dart';
 import 'package:learnandplay/Models/Topics.dart';
 import 'package:learnandplay/Models/UserTopics.dart';
@@ -27,9 +29,36 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    getData(context);
+
     super.initState();
+    getData(context);
+    // List<Topics> topics=[];
+    // List<Pages> pg=[];
+    // topicsRef.once().then((DataSnapshot snapshot){
+    //    topics.clear();
+    //
+    //    snapshot.value.forEach((key,values)  {
+    //     Topics topic=new Topics(
+    //       id: key,
+    //       title: values['title'],
+    //       duration: values["duration"],
+    //       icon: values["icon"],
+    //       gameId:values['gameId'],
+    //       isActive:"isActive",
+    //     );
+    //
+    //     setState(() {
+    //       topics.add(topic);
+    //     });
+    //
+    //
+    //   });
+    //   setState(() {
+    //     _topics=topics;
+    //   });
+    // });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +66,17 @@ class _MainScreenState extends State<MainScreen> {
         drawer: Navigation(),
         appBar: AppBar(
           title: Text("Data Structure"),
+          //automaticallyImplyLeading: false,
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(true,"")));
+              },
+              child: Text("+",style:TextStyle(fontSize: 30.0, fontFamily: "Brand-Bold"),),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            ),
+          ],
         ) ,
         body: ListView.builder(
             itemCount: _topics.length,
@@ -65,10 +105,6 @@ class _MainScreenState extends State<MainScreen> {
                               topic.duration,
                               style: const TextStyle(fontSize: 17, color: Colors.grey),
                             ),
-                            Text(
-                                topic.status,
-                              style: const TextStyle(fontSize: 17, color: Colors.grey),
-                            ),
                             SizedBox(
                               height: 10,
                             ),
@@ -87,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                                     height: 20.0,
                                     child: Center(
                                       child: Text(
-                                        "Learn",
+                                        "Edit",
                                         style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
                                       ) ,
                                     ),
@@ -96,8 +132,7 @@ class _MainScreenState extends State<MainScreen> {
                                       borderRadius: new BorderRadius.circular(24.0)
                                   ),
                                   onPressed: (){
-                                    getCurrentTopicPage(userCurrentInfo.id, topic.id,topic.title);
-
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(false, topic.id)));
                                    },
                                 ),
                                 SizedBox(
@@ -105,13 +140,13 @@ class _MainScreenState extends State<MainScreen> {
                                   width: 3,
                                 ),
                                 RaisedButton(
-                                  color: topic.gameId >0? Colors.blue :Colors.grey,
+                                  color: Colors.blue,
                                   textColor: Colors.white,
                                   child: Container(
                                     height: 20.0,
                                     child: Center(
                                       child: Text(
-                                        "Play",
+                                        "View Slides",
                                         style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
                                       ) ,
                                     ),
@@ -120,9 +155,6 @@ class _MainScreenState extends State<MainScreen> {
                                       borderRadius: new BorderRadius.circular(24.0)
                                   ),
                                   onPressed: (){
-                                    if (topic.gameId >0) {
-                                      getGame(context, topic.gameId);
-                                    }
 
                                   },
                                 ),
@@ -131,11 +163,17 @@ class _MainScreenState extends State<MainScreen> {
 
                           ],
                         ),
-                        Image.asset(
-                          "images/"+topic.icon,
-                          height: double.infinity,
-                          width:90
+                        Image.network(
+                          topic.url!,//"https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                          fit: BoxFit.fill,
+                          width: 90,
+                          height: 80,
                         )
+                        // Image.asset(
+                        //   "images/"+topic.icon,
+                        //   height: double.infinity,
+                        //   width:90
+                        // )
                       ],
                     ),
                   ));
@@ -162,58 +200,6 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  int getCurrentTopicPage(String? userId, String topicId, String topic)
-  {
-    final userTopicId = userId.toString()+"_"+ topicId;
-    final filterField="userId_topicId";
-    int currentPage =0;
-    String topicKey="";
-      Map<String, dynamic> studentTopic={
-      "userTopicId":userTopicId,
-      "topic":topic,
-      "currentPage":0,
-      "status":"In Progress",
-    };
-
-    studentTopicsRef
-        .orderByChild("userTopicId")
-        .equalTo(userTopicId)
-        .once().then((DataSnapshot dataSnapshot) => {
-
-          if (dataSnapshot.value!=null)
-            {
-              dataSnapshot.value.forEach((key,values) {
-
-                currentPage=values["currentPage"];
-                topicKey=key;
-                 // userTopic= new UserTopics(id: key,
-                 //    userTopicId: values["userTopicId"],
-                 //    topic: values["topic"],
-                 //    currentPage: values["currentPage"],
-                 //    status: values["status"]);
-
-              }),
-
-                  setState(() {
-                        currentPage = currentPage;
-                        getPages(topicId,currentPage,topicKey,topic);
-                      }),
-
-            }
-          else{
-
-            topicKey =studentTopicsRef.push().key,
-            studentTopicsRef.child(topicKey).set(studentTopic),
-            setState(() {
-                  currentPage=0;
-                  getPages(topicId, currentPage,topicKey,topic );
-            }),
-
-          }
-   });
-
-    return currentPage;
-  }
   void getPages(String topicId, int index, String topicKey,topic) {
        pagesRef
         .orderByChild("topicId")
@@ -251,17 +237,18 @@ class _MainScreenState extends State<MainScreen> {
             duration: values["duration"],
             icon: values["icon"],
             gameId:values['gameId'],
-            status:"",
+            isActive:values['isActive'],
            );
-
-           await getStatus(userCurrentInfo.id,topic.id).then((value) => {
-             topic.status=value.toString().length==0?"Not Started":value.toString()
+           Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(topic.icon);
+           await firebaseStorageRef.getDownloadURL().then((value) => {
+             topic.url = value
            });
 
          setState(() {
            topics.add(topic);
          });
       });
+
       setState(() {
         _topics=topics;
       });
@@ -270,32 +257,4 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  Future<String> getStatus(String? userId,String topicId) async
-  {
-    String status="";
-    final userTopicId = userId.toString()+"_"+ topicId;
-    await studentTopicsRef
-        .orderByChild("userTopicId")
-        .equalTo(userTopicId)
-        .once().then((DataSnapshot dataSnapshot) => {
-
-      if (dataSnapshot.value!=null)
-        {
-          dataSnapshot.value.forEach((key,values) {
-
-            status=values["status"];
-
-          }),
-
-          setState(() {
-            status = status;
-
-          }),
-
-        }
-
-    }
-    );
-    return status;
-  }
 }
