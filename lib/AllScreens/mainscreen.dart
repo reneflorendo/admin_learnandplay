@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/arraygame.dart';
 import 'package:learnandplay/AllScreens/listgame.dart';
+import 'package:learnandplay/AllScreens/pagelist.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/AllScreens/slides.dart';
 import 'package:learnandplay/AllScreens/topic.dart';
@@ -155,7 +156,7 @@ class _MainScreenState extends State<MainScreen> {
                                       borderRadius: new BorderRadius.circular(24.0)
                                   ),
                                   onPressed: (){
-
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PageList(topic.id, topic.title)));
                                   },
                                 ),
                               ],
@@ -190,7 +191,7 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ArrayGame()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ListGame()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ArrayGame()));
         break;
       default: {
        displayToastMessage("Game not available yet!", context);

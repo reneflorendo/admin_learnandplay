@@ -24,7 +24,6 @@ class _ProfileState extends State<Profile> {
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController yearTextEditingController = TextEditingController();
-  String dropdownValue="1st";
   User? firebaseUser;
   String userId="";
   File? _image;

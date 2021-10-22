@@ -38,6 +38,10 @@ dependencies:
   image_picker: ^0.8.4+2
   path_provider: ^2.0.5
   firebase_storage: ^10.0.5
+  flutter_colorpicker: ^0.5.0
+  flutter_summernote: ^1.0.0
+#  html_editor_enhanced: ^2.3.0
+
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
   flutter_test:

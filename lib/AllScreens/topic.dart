@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learnandplay/AllScreens/mainscreen.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
-import 'package:learnandplay/AllScreens/topiclist.dart';
 import 'package:learnandplay/Models/Topics.dart';
 import 'package:learnandplay/main.dart';
 import 'package:path_provider/path_provider.dart';

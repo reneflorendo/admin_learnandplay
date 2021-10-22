@@ -21,8 +21,8 @@ class Pages
     description = dataSnapshot.value["description"];
     sourceType = dataSnapshot.value["sourceType"];
     pageImage = dataSnapshot.value["pageImage"];
-    isActive = dataSnapshot.value["isActive"];
-    order = dataSnapshot.value["order"];
+    isActive = dataSnapshot.value["IsActive"];
+    order = int.parse(dataSnapshot.value["Order"]);
     topicId = dataSnapshot.value["topicId"];
   }
 }

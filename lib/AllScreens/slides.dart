@@ -1,7 +1,5 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/mainscreen.dart';
-import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/Models/Pages.dart';
 import 'package:learnandplay/main.dart';
 import 'package:learnandplay/widget/slider.dart';
