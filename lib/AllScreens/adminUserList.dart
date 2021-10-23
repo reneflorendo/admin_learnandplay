@@ -41,14 +41,14 @@ class _AdminUserListState extends State<AdminUserList> {
       final adminUser = adminUsers[index];
       return Container(
           height: 140,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: Colors.white, boxShadow: [
             BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10.0),
           ]),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,7 @@ class _AdminUserListState extends State<AdminUserList> {
                       style: const TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,22 +75,24 @@ class _AdminUserListState extends State<AdminUserList> {
                       children: <Widget>[
                         SizedBox(
                           height: 5,
-                          width: 3,
+                          width: 5,
                         ),
                         RaisedButton(
+
                           color:Colors.blue,
                           textColor: Colors.white,
                           child: Container(
                             height: 20.0,
+                            width:45 ,
                             child: Center(
                               child: Text(
                                 adminUser.isActive ? "Disabled":"Activate",
-                                style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
+                                style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),
                               ) ,
                             ),
                           ),
                           shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(24.0)
+                              borderRadius: new BorderRadius.circular(15.0)
                           ),
                           onPressed: (){
                             var isActive=false;
@@ -104,22 +106,23 @@ class _AdminUserListState extends State<AdminUserList> {
                         ),
                         SizedBox(
                           height: 5,
-                          width: 3,
+                          width: 5,
                         ),
                         RaisedButton(
                           color:Colors.blue,
                           textColor: Colors.white,
                           child: Container(
                             height: 20.0,
+                            width:75 ,
                             child: Center(
                               child: Text(
                                 "Reset Password",
-                                style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
+                                style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),
                               ) ,
                             ),
                           ),
                           shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(24.0)
+                              borderRadius: new BorderRadius.circular(15.0)
                           ),
                           onPressed: (){
                             FirebaseAuth.instance.sendPasswordResetEmail(email:adminUser.email).then((value) => {
@@ -129,22 +132,23 @@ class _AdminUserListState extends State<AdminUserList> {
                         ),
                         SizedBox(
                           height: 5,
-                          width: 3,
+                          width: 5,
                         ),
                         RaisedButton(
                           color: Colors.blue,
                           textColor: Colors.white,
                           child: Container(
                             height: 20.0,
+                            width:40 ,
                             child: Center(
                               child: Text(
                                 "Delete",
-                                style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
+                                style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),
                               ) ,
                             ),
                           ),
                           shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(24.0)
+                              borderRadius: new BorderRadius.circular(15.0)
                           ),
                           onPressed: (){
 

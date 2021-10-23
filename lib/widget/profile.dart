@@ -209,8 +209,9 @@ class _ProfileState extends State<Profile> {
   }
 
   Future uploadPic(BuildContext context) async{
-    String fileName = basename(_image!.path);
-    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+   // String fileName = basename(_image!.path);
+    photoName = basename(_image!.path);
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(photoName);
     UploadTask uploadTask = firebaseStorageRef.putFile(_image!);
     TaskSnapshot taskSnapshot=await uploadTask.whenComplete(() => {
       setState(() {
@@ -237,7 +238,7 @@ class _ProfileState extends State<Profile> {
 
   Future<File> saveImagePermanently(String imagePath) async{
     final directory = await getApplicationDocumentsDirectory();
-    photoName =basename(imagePath);
+    //photoName =basename(imagePath);
     final image=File('${directory.path}/$photoName');
     return File(imagePath).copy(image.path);
 

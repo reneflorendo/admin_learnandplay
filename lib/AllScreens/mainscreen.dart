@@ -60,6 +60,12 @@ class _MainScreenState extends State<MainScreen> {
     // });
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +131,12 @@ class _MainScreenState extends State<MainScreen> {
                                     child: Center(
                                       child: Text(
                                         "Edit",
-                                        style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
+                                        style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),
                                       ) ,
                                     ),
                                   ),
                                   shape: new RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(24.0)
+                                      borderRadius: new BorderRadius.circular(15.0)
                                   ),
                                   onPressed: (){
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(false, topic.id)));
@@ -148,12 +154,12 @@ class _MainScreenState extends State<MainScreen> {
                                     child: Center(
                                       child: Text(
                                         "View Slides",
-                                        style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
+                                        style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),
                                       ) ,
                                     ),
                                   ),
                                   shape: new RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(24.0)
+                                      borderRadius: new BorderRadius.circular(15.0)
                                   ),
                                   onPressed: (){
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PageList(topic.id, topic.title)));

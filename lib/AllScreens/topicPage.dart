@@ -3,18 +3,15 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-//import 'package:html_editor_enhanced/html_editor.dart';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:learnandplay/AllScreens/mainscreen.dart';
 import 'package:learnandplay/AllScreens/pagelist.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/Models/Pages.dart';
-import 'package:learnandplay/Models/Topics.dart';
 import 'package:learnandplay/main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_summernote/flutter_summernote.dart';
 
 bool _isAdd=false;
 String _url="";
@@ -43,10 +40,12 @@ class _TopicPageState extends State<TopicPage> {
   TextEditingController titleController= new TextEditingController();
   TextEditingController descriptionController= new TextEditingController();
   TextEditingController orderController= new TextEditingController();
- // HtmlEditorController htmlEditorController = HtmlEditorController();
+  GlobalKey<FlutterSummernoteState> htmlEditor = GlobalKey();
+
 
   bool value = false;
   String dropdownValue="1";
+  String description="";
   // final listItem = [
   //   "Html",
   //   "Image",
@@ -237,6 +236,25 @@ class _TopicPageState extends State<TopicPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
+
+            Padding(
+              padding:const EdgeInsets.only(top:8.0),
+              child:FlutterSummernote(
+                hint: "Your text here...",
+                key: htmlEditor,
+                hasAttachment: true,
+
+                customToolbar: """
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['table', ['table']],
+        """,
+              ),
+            ),
             // Padding(
             //   padding:const EdgeInsets.only(top:8.0),
             //   child:HtmlEditor(
@@ -366,9 +384,11 @@ class _TopicPageState extends State<TopicPage> {
   }
 
   Future<void> addPage(BuildContext context)async {
+
+    final html = await htmlEditor.currentState?.getText();
     Map<String, dynamic> pageDataMap={
       "text":titleController.text.trim(),
-      "description":descriptionController.text.trim(),
+      "description":html,
       "Order": int.parse(orderController.text),
       "IsActive":this.value,
       "pageImage": this._photoName.length>0? this._photoName: "blank.jpg",
@@ -388,9 +408,11 @@ class _TopicPageState extends State<TopicPage> {
 
   Future<void> editPage(BuildContext context)async {
 
+    final html = await htmlEditor.currentState?.getText();
+
     Map<String, dynamic> pageDataMap={
       "text":titleController.text.trim(),
-      "description":descriptionController.text,
+      "description":html,
       "Order": orderController.text,
       "IsActive":this.value,
       "pageImage": this._photoName.length>0? this._photoName: "blank.jpg",
@@ -431,13 +453,16 @@ class _TopicPageState extends State<TopicPage> {
 
         final page = Pages.fromSnapshot(dataSnapShot);
         titleController.text= page.text;
-        descriptionController.text= page.description;
+        //descriptionController.text= page.description;
+
         orderController.text= page.order.toString();
         _photoName=(page.pageImage.length>0)?page.pageImage:"blank.jpg";
        // _htmlEditorController.document.insert(0, quillHtmlToDelta(page.description));
         setState(() {
           this.value= page.isActive;
           this.dropdownValue=page.sourceType;
+          this.description=page.description;
+          htmlEditor.currentState?.text=this.description;
         });
         if (_photoName.length>0) {
            await getDefaultImage(_photoName).then((value) => {

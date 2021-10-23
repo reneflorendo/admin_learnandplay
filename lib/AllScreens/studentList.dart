@@ -11,7 +11,7 @@ class StudentList extends StatefulWidget {
 }
 
 class _StudentListState extends State<StudentList> {
-  final items = List.generate(2000, (counter) => 'Item: $counter');
+
   final List<Users> users= [];
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,12 @@ class _StudentListState extends State<StudentList> {
 
       return ListTile(
         tileColor: (index%2==0)?Colors.white:Colors.blue,
-        title: Text(user.name.toUpperCase(), style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold")),
-        subtitle: Text("Year : "+user.year, style:TextStyle(fontSize: 12.0, fontFamily: "Brand-Bold")),
+        title: Text(user.name.toUpperCase(), style:TextStyle(fontSize: 12.0, fontFamily: "Brand-Bold")),
         trailing:Container(
             width:200 ,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 FlatButton(
                   textColor: (index%2==0)?Colors.blue:Colors.white,
@@ -56,17 +55,17 @@ class _StudentListState extends State<StudentList> {
                       displayToastMessage("Password reset! Email sent to "+ user.email, context),
                       });
                   },
-                  child: Text("Reset Password",style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),),
+                  child: Text("Reset Password",style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),),
                 ),
                 SizedBox(width:2),
-                // FlatButton(
-                //   textColor: (index%2==0)?Colors.blue:Colors.white,
-                //   onPressed: () {
-                //
-                //     print("Delete");
-                //   },
-                //   child: Text("Delete",style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),),
-                // ),
+                FlatButton(
+                  textColor: (index%2==0)?Colors.blue:Colors.white,
+                  onPressed: () {
+
+                    print("Delete");
+                  },
+                  child: Text("Archive",style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),),
+                ),
               ],
             )
         ),
