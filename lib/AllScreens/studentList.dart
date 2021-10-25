@@ -153,7 +153,8 @@ class _StudentListState extends State<StudentList> {
           var activeUsers=users.where((element) => element.isArchive == false).toList();
           users.clear();
           users.addAll(activeUsers);
-          usersForSearch.addAll(activeUsers);
+          users.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+          usersForSearch.addAll(users);
         });
       }
       else{

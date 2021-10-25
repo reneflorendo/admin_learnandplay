@@ -6,6 +6,7 @@ import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/main.dart';
 import 'package:learnandplay/widget/dialog.dart';
 import 'package:learnandplay/widget/loading.dart';
+import 'package:learnandplay/widget/search.dart';
 
 class Archive extends StatefulWidget {
   @override
@@ -15,6 +16,8 @@ class Archive extends StatefulWidget {
 class _ArchiveState extends State<Archive> {
   bool isLoading = false;
   late List<Users> users= [];
+  late List<Users> usersForSearch= [];
+  String query="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,10 +34,37 @@ class _ArchiveState extends State<Archive> {
         // ],
 
       ) ,
-      body:  buildVerticalListView(),
+      body:  Column(
+        children: <Widget>[
+          buildSearch(),
+          Expanded(
+              child:buildVerticalListView()
+          ),
+        ],
+      ),
     );
   }
 
+  Widget buildSearch() => SearchWidget(
+    text: query,
+    hintText: 'Student name',
+    onChanged: searchStudent,
+  );
+
+  void searchStudent(String query) {
+    final students = usersForSearch.where((student) {
+      final nameLower = student.name.toLowerCase();
+
+      final searchLower = query.toLowerCase();
+
+      return nameLower.contains(searchLower);
+    }).toList();
+
+    setState(() {
+      this.query = query;
+      this.users = students;
+    });
+  }
   Widget buildVerticalListView() => ListView.builder(
 
     itemCount: users.length,
@@ -132,6 +162,7 @@ class _ArchiveState extends State<Archive> {
         );
         setState(() {
           users.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+          usersForSearch.addAll(users);
         });
       }
       else {
