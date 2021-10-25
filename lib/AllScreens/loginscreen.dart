@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/registrationScreen.dart';
 import 'package:learnandplay/AllScreens/resetpassword.dart';
+import 'package:learnandplay/AllScreens/studentsforapproval.dart';
 import 'package:learnandplay/Models/AdminUsers.dart';
 import 'package:learnandplay/Models/Pages.dart';
 import 'package:learnandplay/Models/Topics.dart';
@@ -164,7 +165,7 @@ class LoginScreen extends StatelessWidget {
             adminUserCurrentInfo = AdminUsers.fromSnapshot(snap);
             Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => MainScreen()),
+                  builder: (BuildContext context) => StudentsForApproval()),
               ModalRoute.withName('/'),);
             displayToastMessage("You are logged in!.", context);
           }

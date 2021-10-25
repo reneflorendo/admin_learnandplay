@@ -94,6 +94,8 @@ class _TopicPageState extends State<TopicPage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue = newValue!;
+                                  this.description="";
+                                  descriptionController.text="";
                                 });
                               },
                               items: listItem.map((ListItem item) {
@@ -175,12 +177,21 @@ class _TopicPageState extends State<TopicPage> {
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(24.0)
                         ),
-                        onPressed: (){
+                        onPressed: () async {
+                          await htmlEditor.currentState?.getText().then((value) async => {
+                            // if (xvalue.length==0){
+                            await htmlEditor.currentState?.getText().then((value) =>
+                            {
+                              this.description=value,
+                            }),
+                            //}
+                          });
+
                           if (titleController.text.length < 5)
                           {
                             displayToastMessage("Title must be at least 5 characters!", context);
                           }
-                          else if (descriptionController.text.length < 20)
+                          else if ( dropdownValue!="2" && this.description.length < 20)
                           {
                             displayToastMessage("Description is required", context);
                           }
@@ -191,9 +202,11 @@ class _TopicPageState extends State<TopicPage> {
                           else{
                             if(_isAdd){
                               addPage(context);
+                              getPage();
                             }
                             else{
                               editPage(context);
+
                             }
                           }
 
@@ -212,7 +225,7 @@ class _TopicPageState extends State<TopicPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (_isAdd) {
+    if (_isAdd && dropdownValue=="2") {
       getDefaultImage(_defaultImage);
     }
     else{
@@ -239,78 +252,26 @@ class _TopicPageState extends State<TopicPage> {
 
             Padding(
               padding:const EdgeInsets.only(top:8.0),
-              child:FlutterSummernote(
-                hint: "Your text here...",
-                key: htmlEditor,
-                hasAttachment: true,
+              child:  FlutterSummernote(
+                          hint: "Your text here...",
+                          key: htmlEditor,
+                          hasAttachment: true,
+                          value: this.description,
 
-                customToolbar: """
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-    ['font', ['strikethrough', 'superscript', 'subscript']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']],
-    ['table', ['table']],
-        """,
-              ),
-            ),
-            // Padding(
-            //   padding:const EdgeInsets.only(top:8.0),
-            //   child:HtmlEditor(
-            //     controller: htmlEditorController, //required
-            //     htmlEditorOptions: HtmlEditorOptions(
-            //       hint: "Your text here...",
-            //
-            //       //initalText: "text content initial, if any",
-            //     ),
-            //     otherOptions: OtherOptions(
-            //       height: 400,
-            //     ),
-            //   )
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //     child: Container(
-            //       height: 300,
-            //       decoration:BoxDecoration(
-            //         boxShadow: [
-            //           BoxShadow(
-            //             color: Colors.lightBlueAccent,
-            //             offset: const Offset(5.0, 5.0),
-            //             blurRadius: 10.0,
-            //             spreadRadius: 2.0),
-            //           BoxShadow(
-            //           color: Colors.white,
-            //           offset: const Offset(0.0, 0.0),
-            //           blurRadius: 0.0,
-            //           spreadRadius: 0.0),
-            //
-            //                     ]
-            //                                 ),
-            //       child: Quill.QuillEditor.basic(
-            //         controller: _htmlEditorController,
-            //         keyboardAppearance: Brightness.light ,
-            //         readOnly: false, // true for view only mode
-            //       ),
-            //                     )
-            //
-            //       )
-                    ]
+                       customToolbar: """
+                              ['style', ['bold', 'italic', 'underline', 'clear']],
+                              ['font', ['strikethrough', 'superscript', 'subscript']],
+                              ['fontsize', ['fontsize']],
+                              ['color', ['color']],
+                              ['para', ['ul', 'ol', 'paragraph']],
+                              ['height', ['height']],
+                              ['table', ['table']], """,
+                        ),
+            )
 
+          ]
+        );
 
-                    //offset: const Offset(5.0, 5.0),
-
-                  ) ;
-                  // child: Quill.QuillEditor.basic(
-                  //   controller: _htmlEditorController,
-                  //   readOnly: false, // true for view only mode
-                  // ),
-
-        //       ),
-        //     )
-        //   ],
-        // );
         break;
       case "2":
         return  Container(
@@ -385,11 +346,11 @@ class _TopicPageState extends State<TopicPage> {
 
   Future<void> addPage(BuildContext context)async {
 
-    final html = await htmlEditor.currentState?.getText();
+    //final html = await htmlEditor.currentState?.getText();
     Map<String, dynamic> pageDataMap={
       "text":titleController.text.trim(),
-      "description":html,
-      "Order": int.parse(orderController.text),
+      "description": this.description, //descriptionController.text, //html,
+      "Order": orderController.text,
       "IsActive":this.value,
       "pageImage": this._photoName.length>0? this._photoName: "blank.jpg",
       "sourceType":this.dropdownValue,
@@ -401,18 +362,18 @@ class _TopicPageState extends State<TopicPage> {
       if(_image!=null){
         uploadPic(context),
       },
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => PageList(_topicId, _topic)), ModalRoute.withName('/'),)
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PageList(_topicId, _topic)))
 
     });
   }
 
   Future<void> editPage(BuildContext context)async {
 
-    final html = await htmlEditor.currentState?.getText();
+   // final html = await htmlEditor.currentState?.getText();
 
     Map<String, dynamic> pageDataMap={
       "text":titleController.text.trim(),
-      "description":html,
+      "description": this.description, //descriptionController.text,//html,
       "Order": orderController.text,
       "IsActive":this.value,
       "pageImage": this._photoName.length>0? this._photoName: "blank.jpg",
@@ -453,6 +414,7 @@ class _TopicPageState extends State<TopicPage> {
 
         final page = Pages.fromSnapshot(dataSnapShot);
         titleController.text= page.text;
+        this.description=page.description;
         //descriptionController.text= page.description;
 
         orderController.text= page.order.toString();
@@ -461,7 +423,7 @@ class _TopicPageState extends State<TopicPage> {
         setState(() {
           this.value= page.isActive;
           this.dropdownValue=page.sourceType;
-          this.description=page.description;
+          descriptionController.text =page.description;
           htmlEditor.currentState?.text=this.description;
         });
         if (_photoName.length>0) {

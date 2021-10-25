@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/Models/AdminUsers.dart';
 import 'package:learnandplay/main.dart';
+import 'package:learnandplay/widget/dialog.dart';
+import 'package:learnandplay/widget/loading.dart';
+import 'package:learnandplay/widget/navigation.dart';
 
 class AdminUserList extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class _AdminUserListState extends State<AdminUserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Navigation(),
       appBar: AppBar(
         title: Text("Admin Users"),
         actions: <Widget>[
@@ -33,12 +37,22 @@ class _AdminUserListState extends State<AdminUserList> {
       body:  buildVerticalListView(),
     );
   }
+// _searchBar() {
+//   return Padding(
+//     padding: const EdgeInsets.all(8.0),
+//     child: TextField(
+//       decoration: InputDecoration(
+//           hintText: "Search..."
+//       ),
+//     ),
+//   );
+// }
 
   Widget buildVerticalListView() => ListView.builder(
-
     itemCount: adminUsers.length,
     itemBuilder: (context, index) {
       final adminUser = adminUsers[index];
+
       return Container(
           height: 140,
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -101,7 +115,7 @@ class _AdminUserListState extends State<AdminUserList> {
                                  isActive=true;
                               }
                             activateUser(adminUser.id.toString(),isActive);
-                            //Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(false, topic.id)));
+                           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(false, topic.id)));
                           },
                         ),
                         SizedBox(
@@ -151,7 +165,18 @@ class _AdminUserListState extends State<AdminUserList> {
                               borderRadius: new BorderRadius.circular(15.0)
                           ),
                           onPressed: (){
+                            mydialog(context,
+                                title: "Delete",
+                                content: adminUser.name,
+                                ok: () async {
+                                  Navigator.of(context).pop();
+                                  //loading(context);
 
+                                  await adminUsersRef.child(adminUser.id.toString()).remove().then((value) => {
+                                     getUsers(),
+                                      //Navigator.of(context).pop()
+                                  });
+                                });
                           },
                         ),
                       ],

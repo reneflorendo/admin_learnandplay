@@ -61,94 +61,113 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body:SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child:Column(
-                    children: [
+        appBar: AppBar(
+          title: Text("Add Admin User"),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Registration(true, "")));
+              },
+              child: Text("+",
+                style: TextStyle(fontSize: 30.0, fontFamily: "Brand-Bold"),),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            ),
+          ],
 
-                      SizedBox(height:1.0,),
-                      TextField(
-                        controller: nameTextEditingController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          labelText: "Name",
-                          labelStyle: TextStyle(
-                              fontSize: 14.0
-                          ),
-                          hintStyle: TextStyle(
-                              color:Colors.grey,
-                              fontSize: 10.0
-                          ),
-                        ),
-                        style: TextStyle(
-                            fontSize: 14.0
-                        ),
-                      ),
-
-                      SizedBox(height:1.0,),
-                      TextField(
-                        controller: emailTextEditingController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          labelStyle: TextStyle(
-                              fontSize: 14.0
-                          ),
-                          hintStyle: TextStyle(
-                              color:Colors.grey,
-                              fontSize: 10.0
-                          ),
-                        ),
-                        style: TextStyle(
-                            fontSize: 14.0
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      RaisedButton(
-                        color:Colors.blue,
-                        textColor: Colors.white,
-                        child: Container(
-                          height: 50.0,
-                          child: Center(
-                            child: Text(
-                             _isAdd? "Create":"Update",
-                              style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),
-                            ) ,
-                          ),
-                        ),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(24.0)
-                        ),
-                        onPressed: (){
-                          if (nameTextEditingController.text.length < 3)
-                          {
-                            displayToastMessage("Name must be at least 3 characters!", context);
-                          }
-                          else if (!emailTextEditingController.text.contains("@"))
-                          {
-                            displayToastMessage("Invalid Email!", context);
-                          }
-                          else{
-                            registerNewUser(context);
-                          }
-
-                        },
-                      )
-
-
-                    ],
-                  )
-              ),
-            ],
-          ),
         ),
-      ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Column(
+                      children: [
+
+                        SizedBox(height: 1.0,),
+                        TextField(
+                          controller: nameTextEditingController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            labelText: "Name",
+                            labelStyle: TextStyle(
+                                fontSize: 14.0
+                            ),
+                            hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontSize: 14.0
+                          ),
+                        ),
+
+                        SizedBox(height: 1.0,),
+                        TextField(
+                          controller: emailTextEditingController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            labelStyle: TextStyle(
+                                fontSize: 14.0
+                            ),
+                            hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10.0
+                            ),
+                          ),
+                          style: TextStyle(
+                              fontSize: 14.0
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        RaisedButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          child: Container(
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                _isAdd ? "Create" : "Update",
+                                style: TextStyle(
+                                    fontSize: 14.0, fontFamily: "Brand-Bold"),
+                              ),
+                            ),
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(24.0)
+                          ),
+                          onPressed: () {
+                            if (nameTextEditingController.text.length < 3) {
+                              displayToastMessage(
+                                  "Name must be at least 3 characters!",
+                                  context);
+                            }
+                            else if (!emailTextEditingController.text.contains(
+                                "@")) {
+                              displayToastMessage("Invalid Email!", context);
+                            }
+                            else {
+                              registerNewUser(context);
+                            }
+                          },
+                        )
+
+
+                      ],
+                    )
+                ),
+              ],
+            ),
+          )
+          ,
+        )
+        ,
+
     );
   }
   final FirebaseAuth _firebaseAuth=FirebaseAuth.instance;

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/main.dart';
+import 'package:learnandplay/widget/navigation.dart';
 
 class StudentsForApproval extends StatefulWidget {
   static const String idScreen = "studentsForApprovalScreen";
@@ -19,6 +20,7 @@ class _StudentsForApprovalState extends State<StudentsForApproval> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Navigation(),
       appBar: AppBar(
         title: Text("Students for Approval"),
       ) ,
@@ -98,6 +100,7 @@ class _StudentsForApprovalState extends State<StudentsForApproval> {
               , name: values["name"]
               , year: values["year"]
               , isActive: values["isActive"]
+              , isArchive: values["isArchive"]
               , photo: values["photo"]);
 
           setState(() {

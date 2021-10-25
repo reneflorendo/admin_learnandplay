@@ -33,31 +33,6 @@ class _MainScreenState extends State<MainScreen> {
 
     super.initState();
     getData(context);
-    // List<Topics> topics=[];
-    // List<Pages> pg=[];
-    // topicsRef.once().then((DataSnapshot snapshot){
-    //    topics.clear();
-    //
-    //    snapshot.value.forEach((key,values)  {
-    //     Topics topic=new Topics(
-    //       id: key,
-    //       title: values['title'],
-    //       duration: values["duration"],
-    //       icon: values["icon"],
-    //       gameId:values['gameId'],
-    //       isActive:"isActive",
-    //     );
-    //
-    //     setState(() {
-    //       topics.add(topic);
-    //     });
-    //
-    //
-    //   });
-    //   setState(() {
-    //     _topics=topics;
-    //   });
-    // });
   }
 
   @override
@@ -170,12 +145,13 @@ class _MainScreenState extends State<MainScreen> {
 
                           ],
                         ),
-                        Image.network(
-                          topic.url!,//"https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                          fit: BoxFit.fill,
-                          width: 90,
-                          height: 80,
-                        )
+                        // Image.network(
+                        //   topic.url!,//"https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                        //   fit: BoxFit.fill,
+                        //   width: 90,
+                        //   height: 80,
+                        // )
+
                         // Image.asset(
                         //   "images/"+topic.icon,
                         //   height: double.infinity,
@@ -237,6 +213,7 @@ class _MainScreenState extends State<MainScreen> {
     List<Topics> topics=[];
     List<Pages> pg=[];
     await topicsRef.once().then((DataSnapshot snapshot){
+      if (snapshot.value!=null){
          snapshot.value.forEach((key,values) async {
            Topics topic=new Topics(
             id: key,
@@ -246,10 +223,10 @@ class _MainScreenState extends State<MainScreen> {
             gameId:values['gameId'],
             isActive:values['isActive'],
            );
-           Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(topic.icon);
-           await firebaseStorageRef.getDownloadURL().then((value) => {
-             topic.url = value
-           });
+           // Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(topic.icon);
+           // await firebaseStorageRef.getDownloadURL().then((value) => {
+           //   topic.url = value
+           // });
 
          setState(() {
            topics.add(topic);
@@ -259,7 +236,7 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         _topics=topics;
       });
-    }).catchError((errMsg){
+    }}).catchError((errMsg){
       displayToastMessage("Error"+errMsg, context);
     });
   }

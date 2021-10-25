@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/adminUserList.dart';
+import 'package:learnandplay/AllScreens/archive.dart';
 import 'package:learnandplay/AllScreens/loginscreen.dart';
+import 'package:learnandplay/AllScreens/mainscreen.dart';
 import 'package:learnandplay/AllScreens/studentList.dart';
 import 'package:learnandplay/AllScreens/studentsforapproval.dart';
 import 'package:learnandplay/config.dart';
@@ -62,25 +64,25 @@ class _NavigationState extends State<Navigation> {
             ),
             const SizedBox(height:10),
             Divider(color: Colors.white70,thickness: 1,),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildMenuItem(
               text:"My Account",
               icon:Icons.people,
               onClicked: ()=> selectedItem(context, 0)
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildMenuItem(
               text:"Change Password",
               icon:Icons.vpn_key,
               onClicked: ()=> selectedItem(context, 1)
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildMenuItem(
-                text:"Students for Approval",
+                text:"Topics",
                 icon:Icons.approval_rounded,
                 onClicked: ()=> selectedItem(context, 2)
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildMenuItem(
                 text:"Students",
                 icon:Icons.people_alt_rounded,
@@ -92,19 +94,25 @@ class _NavigationState extends State<Navigation> {
             //     icon:Icons.book_rounded,
             //     onClicked: ()=> selectedItem(context, 5)
             // ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             buildMenuItem(
                 text:"Admin Users",
                 icon:Icons.person_outline_rounded,
                 onClicked: ()=> selectedItem(context, 4)
             ),
-             const SizedBox(height:20),
-            Divider(color: Colors.white70,),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            buildMenuItem(
+                text:"Archive",
+                icon:Icons.person_outline_rounded,
+                onClicked: ()=> selectedItem(context, 5)
+            ),
+             const SizedBox(height:10),
+            Divider(color: Colors.white70,thickness: 1,),
+            const SizedBox(height: 10),
             buildMenuItem(
                 text:"Log out",
                 icon:Icons.logout,
-                onClicked: ()=> selectedItem(context, 5)
+                onClicked: ()=> selectedItem(context, 6)
 
             ),
           ],
@@ -142,7 +150,7 @@ class _NavigationState extends State<Navigation> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangePassword()));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentsForApproval()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainScreen()));
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentList()));
@@ -151,6 +159,9 @@ class _NavigationState extends State<Navigation> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => AdminUserList()));
         break;
       case 5:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Archive()));
+        break;
+      case 6:
         //_firebaseAuth.signOut();
         database.setPersistenceEnabled(false);
         database.setPersistenceCacheSizeBytes(0);
