@@ -19,7 +19,6 @@ class _AdminUserListState extends State<AdminUserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Navigation(),
       appBar: AppBar(
         title: Text("Admin Users"),
         actions: <Widget>[

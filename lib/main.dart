@@ -12,6 +12,7 @@ DatabaseReference mainTopicsRef=database.reference().child("mainTopics");
 DatabaseReference pagesRef= database.reference().child("pages");
 DatabaseReference studentTopicsRef= database.reference().child("studentTopics");
 DatabaseReference adminUsersRef= database.reference().child("adminUsers");
+DatabaseReference gameRankingRef= database.reference().child("gameRanking");
 
 User? currentFirebaseUser;
 void main() async{

@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.5
   firebase_storage: ^10.0.5
   flutter_summernote: ^1.0.0
+  equatable: ^2.0.3
 #  html_editor_enhanced: ^2.3.0
 
 dev_dependencies:

@@ -33,7 +33,9 @@ class _PageListState extends State<PageList> {
           FlatButton(
             textColor: Colors.white,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopicPage(true, "0", _topicId)));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopicPage(true, "0", _topicId))).whenComplete(() => {
+                getPages()
+              });
             },
             child: Text("+",style:TextStyle(fontSize: 30.0, fontFamily: "Brand-Bold"),),
             shape: CircleBorder(side: BorderSide(color: Colors.transparent)),

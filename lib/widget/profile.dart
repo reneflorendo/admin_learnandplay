@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learnandplay/AllScreens/mainscreen.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
+import 'package:learnandplay/AllScreens/studentsforapproval.dart';
 import 'package:learnandplay/Models/AdminUsers.dart';
 import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/config.dart';
@@ -262,7 +263,7 @@ class _ProfileState extends State<Profile> {
       userCurrentInfo.photo=photoName,
       displayToastMessage("Your account has been updated!", context),
       Navigator.pushAndRemoveUntil(context,
-      MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+      MaterialPageRoute(builder: (BuildContext context) => StudentsForApproval()),
       ModalRoute.withName('/'),)
     });
 

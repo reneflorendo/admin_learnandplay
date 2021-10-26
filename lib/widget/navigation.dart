@@ -5,8 +5,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/adminUserList.dart';
 import 'package:learnandplay/AllScreens/archive.dart';
+import 'package:learnandplay/AllScreens/leaderboard.dart';
 import 'package:learnandplay/AllScreens/loginscreen.dart';
 import 'package:learnandplay/AllScreens/mainscreen.dart';
+import 'package:learnandplay/AllScreens/ranking.dart';
 import 'package:learnandplay/AllScreens/studentList.dart';
 import 'package:learnandplay/AllScreens/studentsforapproval.dart';
 import 'package:learnandplay/config.dart';
@@ -106,13 +108,19 @@ class _NavigationState extends State<Navigation> {
                 icon:Icons.person_outline_rounded,
                 onClicked: ()=> selectedItem(context, 5)
             ),
+            const SizedBox(height: 10),
+            buildMenuItem(
+                text:"Leaderboard",
+                icon:Icons.person_outline_rounded,
+                onClicked: ()=> selectedItem(context, 6)
+            ),
              const SizedBox(height:10),
             Divider(color: Colors.white70,thickness: 1,),
             const SizedBox(height: 10),
             buildMenuItem(
                 text:"Log out",
                 icon:Icons.logout,
-                onClicked: ()=> selectedItem(context, 6)
+                onClicked: ()=> selectedItem(context, 7)
 
             ),
           ],
@@ -162,6 +170,9 @@ class _NavigationState extends State<Navigation> {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => Archive()));
         break;
       case 6:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Leaderboard()));
+        break;
+      case 7:
         //_firebaseAuth.signOut();
         database.setPersistenceEnabled(false);
         database.setPersistenceCacheSizeBytes(0);
