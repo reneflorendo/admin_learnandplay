@@ -360,10 +360,11 @@ class _TopicPageState extends State<TopicPage> {
     pagesRef.push().set(pageDataMap).then((value) => {
       displayToastMessage("Page created!", context),
       if(_image!=null){
-        uploadPic(context),
-      },
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PageList(_topicId, _topic)))
+        uploadPic(context).whenComplete(() => {
 
+        }),
+      },
+      Navigator.of(context).pop(),
     });
   }
 
@@ -386,24 +387,11 @@ class _TopicPageState extends State<TopicPage> {
       if(_image!=null){
         uploadPic(context),
       },
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => PageList(_topicId, _topic)), ModalRoute.withName('/'),)
+      Navigator.of(context).pop(),
 
     });
   }
-  // String quillDeltaToHtml(Delta delta) {
-  //   final convertedValue = jsonEncode(delta.toJson());
-  //   final markdown =DM.deltaToMarkdown(convertedValue);
-  //   final html =  Markdown .markdownToHtml(markdown);
-  //
-  //   return html;
-  // }
-  //
-  // String quillHtmlToDelta(String htmltoConvert) {
-  //   final convertedValue =  html2md.convert(htmltoConvert);
-  //   final markdown =DM.markdownToDelta (convertedValue);
-  //
-  //   return markdown;
-  // }
+
 
   getPage() async
   {

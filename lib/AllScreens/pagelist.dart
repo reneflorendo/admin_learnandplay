@@ -6,6 +6,7 @@ import 'package:learnandplay/AllScreens/topicPage.dart';
 import 'package:learnandplay/Models/Pages.dart';
 import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/main.dart';
+import 'package:learnandplay/widget/dialog.dart';
 
 String _topic="";
 String _topicId="";
@@ -52,7 +53,7 @@ class _PageListState extends State<PageList> {
       return ListTile(
         tileColor: (index%2==0)?Colors.white:Colors.blue,
         title: Text(page.text, style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold")),
-        trailing:Container(
+        subtitle:Container(
             width:200 ,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -61,9 +62,28 @@ class _PageListState extends State<PageList> {
                 FlatButton(
                   textColor: (index%2==0)?Colors.blue:Colors.white,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopicPage(false,page.id.toString(),_topicId)));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TopicPage(false,page.id.toString(),_topicId))).whenComplete(() => {
+                      getPages()
+                    });
                   },
                   child: Text("Edit",style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),),
+                ),
+                FlatButton(
+                  textColor: (index%2==0)?Colors.blue:Colors.white,
+                  onPressed: () {
+                    mydialog(context,
+                        title: "Delete",
+                        content: page.text,
+                        ok: () async {
+                          Navigator.of(context).pop();
+                          // loading(context);
+                          await pagesRef.child(page.id.toString()).remove().then((value) => {
+                            getPages(),
+                            //Navigator.of(context).pop()
+                          });
+                        });
+                  },
+                  child: Text("Delete",style:TextStyle(fontSize: 14.0, fontFamily: "Brand-Bold"),),
                 ),
 
               ],

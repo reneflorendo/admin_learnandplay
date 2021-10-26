@@ -19,7 +19,10 @@ import 'package:learnandplay/main.dart';
 import 'package:learnandplay/widget/navigation.dart';
 
 class MainScreen  extends StatefulWidget {
+
   static const String idScreen = "mainScreen";
+
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -45,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Navigation(),
         appBar: AppBar(
           title: Text("Data Structure"),
           //automaticallyImplyLeading: false,
@@ -115,6 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   onPressed: (){
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Topic(false, topic.id)));
+                                    //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => Topic(false, topic.id)), ModalRoute.withName('/'),);
                                    },
                                 ),
                                 SizedBox(

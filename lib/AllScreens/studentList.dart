@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:learnandplay/AllScreens/monitoring.dart';
 import 'package:learnandplay/AllScreens/registrationscreen.dart';
 import 'package:learnandplay/Models/Users.dart';
 import 'package:learnandplay/main.dart';
@@ -73,7 +74,7 @@ class _StudentListState extends State<StudentList> {
       return ListTile(
         tileColor: (index%2==0)?Colors.white:Colors.blue,
         title: Text(user.name.toUpperCase(), style:TextStyle(fontSize: 12.0, fontFamily: "Brand-Bold")),
-        trailing:Container(
+        subtitle:Container(
             width:200 ,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,6 +97,14 @@ class _StudentListState extends State<StudentList> {
                     getUsers();
                   },
                   child: Text("Archive",style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),),
+                ),
+                SizedBox(width:2),
+                FlatButton(
+                  textColor: (index%2==0)?Colors.blue:Colors.white,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Monitoring(user.id.toString())));
+                  },
+                  child: Text("View Status",style:TextStyle(fontSize: 10.0, fontFamily: "Brand-Bold"),),
                 ),
               ],
             )

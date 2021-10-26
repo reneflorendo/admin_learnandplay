@@ -169,9 +169,9 @@ class _TopicState extends State<Topic> {
                             borderRadius: new BorderRadius.circular(24.0)
                         ),
                         onPressed: (){
-                          if (titleController.text.length < 5)
+                          if (titleController.text.length < 4)
                           {
-                            displayToastMessage("Title must be at least 5 characters!", context);
+                            displayToastMessage("Title must be at least 4 characters!", context);
                           }
                           else if (durationController.text.length==0)
                           {
@@ -246,8 +246,9 @@ class _TopicState extends State<Topic> {
       if(_image!=null){
         uploadPic(context),
       },
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()), ModalRoute.withName('/'),)
-
+      Navigator.of(context).pop()
+      //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()), ModalRoute.withName('/'),)
+      //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>  MainScreen()))
     });
   }
 
@@ -265,8 +266,9 @@ class _TopicState extends State<Topic> {
     if(_image!=null){
         uploadPic(context),
       },
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()), ModalRoute.withName('/'),)
-
+      Navigator.of(context).pop()
+      //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()), ModalRoute.withName('/'),)
+      //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>  MainScreen()))
     });
   }
 

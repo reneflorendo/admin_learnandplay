@@ -11,8 +11,9 @@ class Topics
   late int gameId;
   late bool isActive;
   late String? url;
+  late String status;
  // late List<Pages> pages;
-  Topics({required this.id, required this.title, required this.duration, required this.icon, required this.gameId, required this.isActive, this.url=""});
+  Topics({required this.id, required this.title, required this.duration, required this.icon, required this.gameId, required this.isActive, this.status="", this.url=""});
 
   Topics.fromSnapshot(DataSnapshot dataSnapshot)
   {
