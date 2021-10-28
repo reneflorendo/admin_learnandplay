@@ -25,7 +25,9 @@ class _AdminUserListState extends State<AdminUserList> {
           FlatButton(
             textColor: Colors.white,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Registration(true,"")));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Registration(true,""))).whenComplete(() => {
+                getUsers()
+              });
             },
             child: Text("+",style:TextStyle(fontSize: 30.0, fontFamily: "Brand-Bold"),),
             shape: CircleBorder(side: BorderSide(color: Colors.transparent)),

@@ -188,7 +188,7 @@ class _RegistrationState extends State<Registration> {
   }
   void registerNewUser(BuildContext context) async
   {
-   String tempPassword="!Q@W#E%T^Y&U*I(O)Pzxc";
+   String tempPassword="P@ssw0rd";
 
     final User? firebaseUser=( await _firebaseAuth.createUserWithEmailAndPassword(
         email: emailTextEditingController.text,
@@ -210,8 +210,8 @@ class _RegistrationState extends State<Registration> {
       adminUsersRef.child(firebaseUser.uid).set(userDataMap).then((value) => {
         FirebaseAuth.instance.sendPasswordResetEmail(email:emailTextEditingController.text).then((value) => {
             displayToastMessage("Admin user has been created, and Email sent to " +emailTextEditingController.text, context),
-
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => AdminUserList()), ModalRoute.withName('/'),)
+          Navigator.of(context).pop(),
+            //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => AdminUserList()), ModalRoute.withName('/'),)
         })
 
       });

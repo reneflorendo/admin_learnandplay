@@ -177,10 +177,10 @@ class _TopicState extends State<Topic> {
                           {
                             displayToastMessage("Duration is required", context);
                           }
-                          else if (gameIdController.text.length==0)
-                          {
-                            displayToastMessage("Game Id is required", context);
-                          }
+                          // else if (gameIdController.text.length==0)
+                          // {
+                          //   displayToastMessage("Game Id is required", context);
+                          // }
                           else{
                             if(_isAdd){
                               addTopic(context);
@@ -256,7 +256,7 @@ class _TopicState extends State<Topic> {
     Map<String, dynamic> topicDataMap={
       "title":titleController.text.trim(),
       "duration":durationController.text.trim(),
-      "gameId": int.parse(gameIdController.text),
+      "gameId": gameIdController.text,
       "isActive":this.value,
       "icon": this._photoName.length>0? this._photoName: "blank.png"
     };

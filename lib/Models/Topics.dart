@@ -8,7 +8,7 @@ class Topics
   late String title;
   late String duration;
   late String icon;
-  late int gameId;
+  late String gameId;
   late bool isActive;
   late String? url;
   late String status;

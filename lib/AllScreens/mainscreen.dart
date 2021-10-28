@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:learnandplay/AllScreens/arraygame.dart';
 import 'package:learnandplay/AllScreens/pagelist.dart';
@@ -117,7 +118,9 @@ class _MainScreenState extends State<MainScreen> {
                                   onPressed: () {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) =>
-                                            Topic(false, topic.id)));
+                                            Topic(false, topic.id))).whenComplete(() => {
+                                              getData(context)
+                                    });
                                     //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => Topic(false, topic.id)), ModalRoute.withName('/'),);
                                   },
                                 ),
@@ -153,12 +156,12 @@ class _MainScreenState extends State<MainScreen> {
 
                           ],
                         ),
-                        // Image.network(
-                        //   topic.url!,//"https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                        //   fit: BoxFit.fill,
-                        //   width: 90,
-                        //   height: 80,
-                        // )
+                        Image.network(
+                          topic.url!,//"https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                          fit: BoxFit.fill,
+                          width: 90,
+                          height: 80,
+                        )
 
                         // Image.asset(
                         //   "images/"+topic.icon,
@@ -207,10 +210,10 @@ class _MainScreenState extends State<MainScreen> {
             gameId: values['gameId'],
             isActive: values['isActive'],
           );
-          // Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(topic.icon);
-          // await firebaseStorageRef.getDownloadURL().then((value) => {
-          //   topic.url = value
-          // });
+          Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(topic.icon);
+          await firebaseStorageRef.getDownloadURL().then((value) => {
+            topic.url = value
+          });
 
           setState(() {
             topics.add(topic);
